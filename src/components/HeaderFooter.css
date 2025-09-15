@@ -1,0 +1,231 @@
+/* ===== Root tokens (optional, easy theming) ===== */
+:root {
+  --bg-deep: #0f172a;     /* header/footer bg */
+  --text-muted: #cbd5e1;  /* secondary text */
+  --text-bright: #ffffff; /* primary on dark */
+  --accent: #38bdf8;      /* link hover/accent */
+  --accent-strong: #0ea5e9;
+
+  --brand-maxw: 1200px;
+  --x-pad: 24px;
+}
+
+/* ===== Basic reset for this layout file ===== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+.container {
+  max-width: var(--brand-maxw);
+  margin: 0 auto;
+  padding: 0 var(--x-pad);
+}
+
+/* ===== HEADER ===== */
+.header {
+  background-color: var(--bg-deep);
+  padding: 12px 0; /* slightly tighter on top for better vertical rhythm */
+  color: var(--text-muted);
+}
+
+/* Make sticky if you want: uncomment the following 3 lines */
+/*
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+*/
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px; /* breathing room between sections */
+}
+
+/* --- Logo --- */
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  color: var(--text-bright);
+  margin-left: 1px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* --- Nav (center) --- */
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+  padding: 6px 2px; /* larger hit target without shifting layout */
+  display: inline-block;
+}
+
+.nav-links li a:hover,
+.nav-links li .active {
+  color: var(--accent);
+}
+
+/* Focus-visible for accessibility */
+.nav-links li a:focus-visible,
+.header-contact a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* --- Contact (right) --- */
+.header-contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  white-space: nowrap; /* keep the row tidy on one line when possible */
+}
+
+.call-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.phone {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.phone:hover {
+  color: var(--accent-strong);
+}
+
+/* Icon links (Font Awesome, React Icons, etc.) */
+.icon-link {
+  font-size: 1.15rem;
+  text-decoration: none;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+  opacity: 0.95;
+}
+
+.icon-link:hover { opacity: 1; }
+
+/* Brand colors */
+.whatsapp { color: #25d366; }
+.whatsapp:hover { color: #1ebe57; }
+
+.facebook { color: #1877f2; }
+.facebook:hover { color: #0f5bb5; }
+
+.linkedin { color: #0a66c2; }
+.linkedin:hover { color: #084a8c; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background-color: var(--bg-deep);
+  padding: 24px 0;
+  color: var(--text-muted);
+}
+
+.footer-content {
+  max-width: var(--brand-maxw);
+  margin: 0 auto;
+  padding: 0 var(--x-pad);
+  text-align: center;
+}
+
+.footer p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin: 0 8px;
+  transition: color 0.2s ease-in-out;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* ===== RESPONSIVE ===== */
+/* On tablets and below: slightly reduce gaps */
+@media (max-width: 992px) {
+  .nav-links { gap: 16px; }
+  .header-contact { gap: 10px; }
+}
+
+/* On small screens: stack nav below logo, keep contact to the right or wrap nicely */
+@media (max-width: 768px) {
+  .header-inner {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  /* Let logo take left, contact right on the first row */
+  .logo-link { order: 1; }
+  .header-contact { order: 2; margin-left: auto; }
+
+  /* Put nav on its own line and center it */
+  .nav-center {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+  }
+}
+
+/* On very small phones: allow wrapping and reduce font sizes a bit */
+@media (max-width: 420px) {
+  .header-contact {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  .logo-text { font-size: 1.05rem; }
+  .nav-links { gap: 12px; }
+}
+
+/* ===== Reduced motion preference ===== */
+@media (prefers-reduced-motion: reduce) {
+  .nav-links li a,
+  .icon-link,
+  .phone,
+  .footer-links a {
+    transition: none;
+  }
+}
