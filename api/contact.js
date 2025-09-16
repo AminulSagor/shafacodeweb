@@ -31,12 +31,14 @@ module.exports = async (req, res) => {
 
 
     const info = await transporter.sendMail({
-      from: `"ShafaCode Website" <${process.env.GMAIL_USER}>`,
-      to: process.env.TO_EMAIL || "aminulislamsagor3@gmail.com",
-      subject: `New inquiry from ${name}`,
-      text: message,
-      html: `<p><strong>Name:</strong> ${name}</p><p>${String(message).replace(/\n/g, "<br/>")}</p>`,
-    });
+  from: process.env.ZOHO_USER,   // Must match your Zoho mailbox (e.g. aminulislamsagor@shafacode.com)
+  to: process.env.TO_EMAIL || "aminulislamsagor@shafacode.com",
+  replyTo: req.body.email || process.env.ZOHO_USER, // optional
+  subject: `New inquiry from ${name}`,
+  text: message,
+  html: `<p><strong>Name:</strong> ${name}</p><p>${String(message).replace(/\n/g, "<br/>")}</p>`,
+});
+
 
     return res.status(200).json({ ok: true, id: info.messageId });
   } catch (err) {
