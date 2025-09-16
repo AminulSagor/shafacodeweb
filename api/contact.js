@@ -20,14 +20,15 @@ module.exports = async (req, res) => {
 
     // Transport using env vars (set in the next step)
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // STARTTLS
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASS,
-      },
-    });
+  host: "smtp.zoho.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.ZOHO_USER,
+    pass: process.env.ZOHO_APP_PASS,
+  },
+});
+
 
     const info = await transporter.sendMail({
       from: `"ShafaCode Website" <${process.env.GMAIL_USER}>`,
