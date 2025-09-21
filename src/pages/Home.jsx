@@ -24,7 +24,7 @@ export default function Home() {
 
             <div className="hero-cta">
               <a
-                href="https://wa.me/8801234567890"
+                href="https://wa.me/8801540233587"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
