@@ -6,6 +6,8 @@ import About from "./pages/About";
 // Admin imports
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
+import Partner from "./pages/Partner";
+import MainLayout from "./Layout/MainLayout";
 
 
 
@@ -16,6 +18,11 @@ function App() {
         {/* Public Pages */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+
+        <Route path="/" element={<MainLayout />}>
+          <Route path="partner" element={<Partner />} />
+        </Route>
+        {/* <Route path="/Partner" element={<Partner/>} /> */}
       
 
         {/* Admin */}

@@ -36,7 +36,7 @@ export default function Header() {
     <header className="header">
       <div className="container header-inner">
         <Link to="/" className="logo-link">
-          <img src="/assets/logo/logo.png" alt="ShafaCode Logo" className="logo-img" />
+          <img src="/assets/logo/Logo.png" alt="ShafaCode Logo" className="logo-img" />
           <span className="logo-text">ShafaCode</span>
         </Link>
 
@@ -59,6 +59,7 @@ export default function Header() {
 >
   <ul className="nav-links" role="list">
     <li><NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>Home</NavLink></li>
+    <li><NavLink to="/partner" end className={({ isActive }) => (isActive ? "active" : "")}>Become a Partner</NavLink></li>
     <li><HashLink smooth to="/#services" className="hash-link">Services</HashLink></li>
     <li><HashLink smooth to="/#portfolio" className="hash-link">Portfolio</HashLink></li>
     <li><HashLink smooth to="/#contact" className="hash-link">Contact</HashLink></li>
