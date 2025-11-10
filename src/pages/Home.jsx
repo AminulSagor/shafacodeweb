@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "./Home.css";
@@ -76,6 +75,24 @@ export default function Home() {
                   <strong>Contact:</strong> <a href="mailto:shaikh.dine@chorki.com">shaikh.dine@chorki.com</a>
                 </p>
               </article>
+
+                            <article className="portfolio-card">
+                <h3>Influencer Marketing & PR Campaign Platform</h3>
+                <p className="description">
+                  Designing and developing a secure platform that connects brands, agencies, and creators
+                  for end-to-end digital campaigns — from brief creation and influencer selection to
+                  content approval, performance tracking, and wallet-based payouts.
+                </p>
+                <p className="client-contact">
+                  <strong>Client:</strong> MD. ZAHEDUL ALAM<br />
+                   <strong>Status:</strong> 🚧 Ongoing<br />
+                  <strong>Contact:</strong>{" "}
+                  <a href="mailto:aminulislamsagor@shafacode.com">
+                    aminulislamsagor@shafacode.com
+                  </a>
+                </p>
+              </article>
+
 
               {/* Ongoing Project 1 */}
               <article className="portfolio-card">
