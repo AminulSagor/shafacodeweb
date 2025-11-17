@@ -63,7 +63,7 @@ export default function ContactForm() {
       // Save to Firestore – choose your collection name
       await addDoc(collection(db, 'affiliate_leads'), payload);
 
-      const data = await fetch('/api/affiliate', {
+      const data = await fetch('/api/affiliate-leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
