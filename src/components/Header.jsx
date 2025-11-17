@@ -24,18 +24,14 @@ export default function Header() {
 
   useEffect(() => {
     const storedUser = localStorage.getItem("admin_auth"); // or "isAdminLoggedIn"
-
     console.log(storedUser, "syt");
-
     if (storedUser) {
-      // if you stored an object
       setUser(true);
-      // or: setIsAuthenticated(true);
     } else {
       setUser(null);
-      // or: setIsAuthenticated(false);
     }
   }, []);
+
   useEffect(() => {
     const onClick = (e) => {
       if (!open) return;
@@ -83,6 +79,15 @@ export default function Header() {
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Home
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/affiliate"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Become a Partner
               </NavLink>
             </li>
             <li>

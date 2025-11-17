@@ -1,0 +1,208 @@
+/* Root page wrapper */
+.affiliate {
+  background: #0b1222
+    linear-gradient(180deg, #020617 0%, #0b1222 50%, #020617 100%);
+  color: #cbd5e1;
+  min-height: 100vh;
+}
+
+/* HERO overrides for affiliate page */
+.affiliate-hero {
+  padding-bottom: 56px;
+}
+
+.affiliate-metrics {
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+.affiliate-metrics li {
+  color: #bfdbfe;
+}
+
+/* BODY LAYOUT */
+.affiliate-body {
+  padding: 56px 0 72px;
+}
+
+.affiliate-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* LEFT SIDE (video + transcript) */
+.affiliate-left {
+  display: grid;
+  gap: 24px;
+}
+
+/* VIDEO CARD */
+.affiliate-video-card {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 20px 20px 24px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #fff;
+  background: #020617;
+}
+
+.affiliate-section-title {
+  margin-bottom: 8px;
+}
+
+.affiliate-video-note {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+/* Responsive 16:9 video */
+.affiliate-video-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.6);
+  background: #020617;
+}
+
+.affiliate-video-wrapper::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%; /* 16:9 ratio */
+}
+
+.affiliate-video-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* TRANSCRIPT */
+.affiliate-transcript {
+  background: #020617;
+  border-radius: 16px;
+  padding: 18px 20px 20px;
+  border: 1px solid #1f2937;
+}
+
+.affiliate-transcript h3 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.affiliate-transcript-body {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 6px;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+.affiliate-transcript-body p {
+  margin: 0 0 10px;
+}
+
+/* RIGHT SIDE (form) */
+.affiliate-right {
+  position: sticky;
+  top: 96px;
+  align-self: flex-start;
+}
+
+.affiliate-form-card {
+  background: #020617;
+  border-radius: 18px;
+  padding: 22px 22px 24px;
+  border: 1px solid #1f2937;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.7);
+}
+
+.affiliate-form-title {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e5e7eb;
+}
+
+.affiliate-form-sub {
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
+
+/* Reuse .contact-form base styles and refine spacing */
+.affiliate-form {
+  display: grid;
+  gap: 10px;
+}
+
+.affiliate-form label {
+  font-size: 0.95rem;
+}
+
+.affiliate-form input[type="file"] {
+  padding: 9px 10px;
+  cursor: pointer;
+}
+
+.affiliate-submit {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.field-error {
+  color: #f97373;
+  font-size: 0.85rem;
+}
+
+.affiliate-form-footnote {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* Scrollbar for transcript (light but subtle) */
+.affiliate-transcript-body::-webkit-scrollbar {
+  width: 6px;
+}
+.affiliate-transcript-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.affiliate-transcript-body::-webkit-scrollbar-thumb {
+  background: #1f2937;
+  border-radius: 999px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  .affiliate-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .affiliate-right {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .affiliate-body {
+    padding: 40px 0 56px;
+  }
+
+  .affiliate-form-card {
+    padding: 18px 16px 20px;
+  }
+
+  .affiliate-video-card {
+    padding: 18px 16px 20px;
+  }
+}

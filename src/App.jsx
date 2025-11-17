@@ -8,6 +8,7 @@ import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
+import Affiliate from "./pages/affiliate/Affiliate";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           {/* Public Pages */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/affiliate" element={<Affiliate />} />
 
           {/* Admin */}
           <Route path="/admin/login" element={<AdminLogin />} />

@@ -12,7 +12,9 @@ module.exports = async (req, res) => {
 
     // Simple validation
     if (!name || !message) {
-      return res.status(400).json({ ok: false, error: "Name and message are required" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Name and message are required" });
     }
 
     // Honeypot (hidden field named "company"); bots will fill it
@@ -20,25 +22,23 @@ module.exports = async (req, res) => {
 
     // Transport using env vars (set in the next step)
     const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.ZOHO_USER,
-    pass: process.env.ZOHO_APP_PASS,
-  },
-});
-
+      host: "smtp.zoho.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.ZOHO_USER,
+        pass: process.env.ZOHO_APP_PASS,
+      },
+    });
 
     const info = await transporter.sendMail({
-  from: process.env.ZOHO_USER,   // Must match your Zoho mailbox (e.g. aminulislamsagor@shafacode.com)
-  to: process.env.TO_EMAIL || "aminulislamsagor@shafacode.com",
-  replyTo: req.body.email || process.env.ZOHO_USER, // optional
-  subject: `New inquiry from ${name}`,
-  text: message,
-  html: `<p><strong>Name:</strong> ${name}</p><p>${String(message).replace(/\n/g, "<br/>")}</p>`,
-});
-
+      from: process.env.ZOHO_USER, // Must match your Zoho mailbox (e.g. aminulislamsagor@shafacode.com)
+      to: process.env.TO_EMAIL || "aminulislamsagor@shafacode.com",
+      replyTo: req.body.email || process.env.ZOHO_USER, // optional
+      subject: `New inquiry from ${name}`,
+      text: message,
+      html: `<p><strong>Name:</strong> ${name}</p><p>${String(message).replace(/\n/g, "<br/>")}</p>`,
+    });
 
     return res.status(200).json({ ok: true, id: info.messageId });
   } catch (err) {
