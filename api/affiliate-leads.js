@@ -33,8 +33,8 @@ module.exports = async function (req, res) {
     // Send email
     const info = await transporter.sendMail({
       from: process.env.ZOHO_USER,
-      to: 'abdullahsiam004@gmail.com',
-      subject: `New inquiry from ${name}`,
+      to: process.env.TO_EMAIL || 'aminulislamsagor@shafacode.com',
+      subject: `New Affiliate Lead from ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; background:#f6f9fc; padding:20px;">
           <table style="max-width:600px; margin:auto; background:#fff; border-radius:10px; padding:30px; border:1px solid #eaeaea;">
@@ -56,7 +56,7 @@ module.exports = async function (req, res) {
                   </tr>
                 </table>
                 <hr style="margin:25px 0; border-top:1px solid #eee;" />
-                <p style="color:#777; font-size:13px; text-align:center;">This email was sent from your website contact form.</p>
+                <p style="color:#777; font-size:13px; text-align:center;">This email was sent from your website affliliate leads</p>
               </td>
             </tr>
           </table>
