@@ -5,6 +5,7 @@ import "./HeaderFooter.css";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -21,6 +22,20 @@ export default function Header() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("admin_auth"); // or "isAdminLoggedIn"
+
+    console.log(storedUser, "syt");
+
+    if (storedUser) {
+      // if you stored an object
+      setUser(true);
+      // or: setIsAuthenticated(true);
+    } else {
+      setUser(null);
+      // or: setIsAuthenticated(false);
+    }
+  }, []);
   useEffect(() => {
     const onClick = (e) => {
       if (!open) return;
@@ -85,6 +100,13 @@ export default function Header() {
                 Contact
               </HashLink>
             </li>
+            {user && (
+              <li>
+                <NavLink smooth to="/admin/dashboard" className="hash-link">
+                  Admin
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
 
