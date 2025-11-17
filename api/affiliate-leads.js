@@ -33,7 +33,7 @@ module.exports = async function (req, res) {
     // Send email
     const info = await transporter.sendMail({
       from: process.env.ZOHO_USER,
-      to: process.env.TO_EMAIL || 'abdullahsiam004@gmail.com',
+      to: 'abdullahsiam004@gmail.com',
       subject: `New inquiry from ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; background:#f6f9fc; padding:20px;">
