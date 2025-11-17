@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase";
-import "./Affiliate.css";
+import { useState } from 'react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase';
+import './Affiliate.css';
 
 export default function ContactForm() {
   const [formValues, setFormValues] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    about: "",
+    name: '',
+    email: '',
+    phone: '',
+    about: '',
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -26,20 +26,20 @@ export default function ContactForm() {
     const newErrors = {};
 
     if (!formValues.name.trim()) {
-      newErrors.name = "Full name is required.";
+      newErrors.name = 'Full name is required.';
     }
 
     if (!formValues.email.trim()) {
-      newErrors.email = "Email is required.";
+      newErrors.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      newErrors.email = "Please enter a valid email address.";
+      newErrors.email = 'Please enter a valid email address.';
     }
 
     if (!formValues.phone.trim()) {
-      newErrors.phone = "Phone is required.";
+      newErrors.phone = 'Phone is required.';
     } else if (!/^\+?\d{7,15}$/.test(formValues.phone.trim())) {
       newErrors.phone =
-        "Please enter a valid phone number (7–15 digits, optional +).";
+        'Please enter a valid phone number (7–15 digits, optional +).';
     }
 
     setErrors(newErrors);
@@ -58,24 +58,38 @@ export default function ContactForm() {
         createdAt: serverTimestamp(),
       };
 
-      console.log("Affiliate form payload (to Firestore):", payload);
+      console.log('Affiliate form payload (to Firestore):', payload);
 
       // Save to Firestore – choose your collection name
-      await addDoc(collection(db, "affiliate_leads"), payload);
+      await addDoc(collection(db, 'affiliate_leads'), payload);
 
-      alert("Form submitted! Check console for payload.");
+      const data = await fetch('/api/affiliate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formValues),
+      });
+
+      if (!data.ok) {
+        throw new Error(data.statusText);
+      }
+
+      console.log('Affiliate form payload (to API):', formValues);
+
+      alert('Form submitted! Check console for payload.');
 
       // reset form
       setFormValues({
-        name: "",
-        email: "",
-        phone: "",
-        about: "",
+        name: '',
+        email: '',
+        phone: '',
+        about: '',
       });
       setErrors({});
     } catch (err) {
-      console.error("Error submitting affiliate form:", err);
-      alert("Something went wrong while submitting. Check console.");
+      console.error('Error submitting affiliate form:', err);
+      alert('Something went wrong while submitting. Check console.');
     } finally {
       setSubmitting(false);
     }
@@ -151,7 +165,7 @@ export default function ContactForm() {
             className="btn btn-primary affiliate-submit"
             disabled={submitting}
           >
-            {submitting ? "Submitting..." : "Submit"}
+            {submitting ? 'Submitting...' : 'Submit'}
           </button>
 
           <p className="affiliate-form-footnote">

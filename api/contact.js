@@ -31,11 +31,11 @@ module.exports = async (req, res) => {
       },
     });
 
-    //process.env.TO_EMAIL ||
+    //    //process.env.TO_EMAIL ||
 
     const info = await transporter.sendMail({
       from: process.env.ZOHO_USER,
-      to: 'abdullahsiam004@gmail.com',
+      to: process.env.TO_EMAIL || 'abdullahsiam004@gmail.com',
       replyTo: req.body.email || process.env.ZOHO_USER, // optional
       subject: `New inquiry from ${name}`,
       text: message,
