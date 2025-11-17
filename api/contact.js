@@ -1,10 +1,10 @@
 // api/contact.js (CommonJS to avoid ESM config hassles)
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 module.exports = async (req, res) => {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ ok: false, error: "Method Not Allowed" });
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
   }
 
   try {
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     if (!name || !message) {
       return res
         .status(400)
-        .json({ ok: false, error: "Name and message are required" });
+        .json({ ok: false, error: 'Name and message are required' });
     }
 
     // Honeypot (hidden field named "company"); bots will fill it
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 
     // Transport using env vars (set in the next step)
     const transporter = nodemailer.createTransport({
-      host: "smtp.zoho.com",
+      host: 'smtp.zoho.com',
       port: 587,
       secure: false,
       auth: {
@@ -32,17 +32,20 @@ module.exports = async (req, res) => {
     });
 
     const info = await transporter.sendMail({
-      from: process.env.ZOHO_USER, // Must match your Zoho mailbox (e.g. aminulislamsagor@shafacode.com)
-      to: process.env.TO_EMAIL || "aminulislamsagor@shafacode.com",
+      from: process.env.ZOHO_USER,
+      to: process.env.TO_EMAIL || 'abdullahsiam004@gmail.com',
       replyTo: req.body.email || process.env.ZOHO_USER, // optional
       subject: `New inquiry from ${name}`,
       text: message,
-      html: `<p><strong>Name:</strong> ${name}</p><p>${String(message).replace(/\n/g, "<br/>")}</p>`,
+      html: `<p><strong>Name:</strong> ${name}</p><p>${String(message).replace(
+        /\n/g,
+        '<br/>'
+      )}</p>`,
     });
 
     return res.status(200).json({ ok: true, id: info.messageId });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ ok: false, error: "Failed to send email" });
+    return res.status(500).json({ ok: false, error: 'Failed to send email' });
   }
 };
