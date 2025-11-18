@@ -1,3 +1,4 @@
+import CtaSection from '@/components/home/cta';
 import HeroSection from '@/components/home/hero';
 import Offer from '@/components/home/offer';
 import PortfolioSection from '@/components/home/portfolio';
@@ -12,6 +13,7 @@ const Homepage = () => {
       <PortfolioSection />
       <Offer />
       <WhyChooseUs />
+      <CtaSection />
     </>
   );
 };
