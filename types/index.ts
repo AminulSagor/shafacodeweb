@@ -5,3 +5,5 @@ export type ProjectType = {
   status: 'Delivered' | 'Ongoing';
   contact: string;
 };
+
+// test build
