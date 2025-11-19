@@ -1,10 +1,20 @@
+import { db } from '@/db/firebase-admin';
 import sendMail from '@/lib/send-mail';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+
     const { name, email, message } = body;
+
+    const contact = await db.collection('contact').add({
+      name,
+      email,
+      message,
+    });
+
+    console.log(contact, 'contact');
 
     const mailHtml = `
   <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
@@ -23,7 +33,6 @@ export async function POST(req: Request) {
       <div style="background-color: #f3f4f6; color: #555555; text-align: center; padding: 10px 20px; font-size: 12px;">
         This message was sent from your website contact form.
       </div>
-
     </div>
   </div>
 `;

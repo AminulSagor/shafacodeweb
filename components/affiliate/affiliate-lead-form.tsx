@@ -17,6 +17,7 @@ import { Textarea } from '../ui/textarea';
 import { Upload } from 'lucide-react';
 import { supabase } from '@/lib/supabase-client';
 import toast from 'react-hot-toast';
+import { firebaseClient } from '@/db/firebase-client';
 
 const affiliateFormSchema = z.object({
   fullName: z
@@ -81,6 +82,7 @@ const AffiliateLeadForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+      // send data to firestore
 
       if (!res.ok) {
         toast.error('Failed to send email');
