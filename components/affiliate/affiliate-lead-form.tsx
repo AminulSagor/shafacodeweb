@@ -15,6 +15,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Upload } from 'lucide-react';
+import { supabase } from '@/lib/supabase-client';
 
 const affiliateFormSchema = z.object({
   fullName: z
@@ -42,8 +43,38 @@ const AffiliateLeadForm = () => {
     },
   });
 
-  const onSubmit = (data: AffiliateFormType) => {
-    console.log(data);
+  const onSubmit = async (data: AffiliateFormType) => {
+    let fileUrl = null;
+    // upload file to supabase storage
+    if (data.file) {
+      const file = data.file;
+      const fileName = `${Date.now()}-${file.name}`;
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('shafacode')
+        .upload(fileName, file);
+
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        return;
+      }
+      // get public url
+      const { data: publicUrlData } = supabase.storage
+        .from('shafacode')
+        .getPublicUrl(fileName);
+      fileUrl = publicUrlData?.publicUrl;
+    }
+
+    // 3. Prepare final payload
+    const payload = {
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      message: data.message,
+      fileUrl, // attach uploaded file link
+    };
+
+    console.log(payload, 'form submit payload');
   };
 
   return (
