@@ -1,6 +1,5 @@
 import sendMail from '@/lib/send-mail';
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
   try {
@@ -21,7 +20,7 @@ export async function POST(req: Request) {
     `;
 
     await sendMail({
-      subject: 'New Affiliate Lead from ' + fullName,
+      subject: 'New Affiliate Lead From ' + fullName,
       html: mailHtml,
     });
 

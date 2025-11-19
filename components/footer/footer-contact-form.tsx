@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-// shadcn/ui components (adjust imports to match your project structure)
 import {
   Form,
   FormControl,
@@ -17,12 +16,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import toast from 'react-hot-toast';
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   message: z
     .string()
     .min(10, { message: 'Message must be at least 10 characters.' }),
+  email: z.email({ message: 'Please enter a valid email address.' }),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -36,6 +37,7 @@ const FooterContactForm: React.FC = () => {
     defaultValues: {
       name: '',
       message: '',
+      email: '',
     },
   });
 
@@ -43,14 +45,25 @@ const FooterContactForm: React.FC = () => {
     setSubmitting(true);
     setStatusMessage(null);
 
+    const payload = {
+      name: values.name,
+      email: values.email,
+      message: values.message,
+    };
+
     try {
-      // Simulate an async request (replace with real API call)
-      await new Promise((res) => setTimeout(res, 700));
+      const response = await fetch('/api/footer-contact-mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-      // For demo, log the values. Replace this with fetch/axios call.
-      console.log('Contact form submitted:', values);
-
-      setStatusMessage('Thanks — your message has been sent!');
+      if (!response.ok) {
+        throw new Error('Something went wrong. Please try again later.');
+      }
+      toast.success('Email sent successfully');
       form.reset();
     } catch (err) {
       console.error(err);
@@ -80,6 +93,28 @@ const FooterContactForm: React.FC = () => {
                   <Input
                     {...field}
                     placeholder="Your name"
+                    aria-invalid={!!form.formState.errors.name}
+                    disabled={submitting}
+                    className="bg-slate-800 border-sky-700 focus-visible:border-sky-700 focus-visible:ring-sky-600 focus-visible:ring-2 text-slate-200"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm text-slate-200 font-medium">
+                  Email
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Your email"
                     aria-invalid={!!form.formState.errors.name}
                     disabled={submitting}
                     className="bg-slate-800 border-sky-700 focus-visible:border-sky-700 focus-visible:ring-sky-600 focus-visible:ring-2 text-slate-200"
