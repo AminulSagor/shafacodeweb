@@ -32,6 +32,7 @@ const affiliateFormSchema = z.object({
 type AffiliateFormType = z.infer<typeof affiliateFormSchema>;
 
 const AffiliateLeadForm = () => {
+  const [loading, setLoading] = React.useState(false);
   const form = useForm<AffiliateFormType>({
     resolver: zodResolver(affiliateFormSchema),
     defaultValues: {
@@ -44,37 +45,61 @@ const AffiliateLeadForm = () => {
   });
 
   const onSubmit = async (data: AffiliateFormType) => {
-    let fileUrl = null;
-    // upload file to supabase storage
-    if (data.file) {
-      const file = data.file;
-      const fileName = `${Date.now()}-${file.name}`;
+    try {
+      setLoading(true); // start loading
+      let fileUrl = null;
+      // upload file to supabase storage
+      if (data.file) {
+        const file = data.file;
+        const fileName = `${Date.now()}-${file.name}`;
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('shafacode')
-        .upload(fileName, file);
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('shafacode')
+          .upload(fileName, file);
 
-      if (uploadError) {
-        console.error('Upload error:', uploadError);
-        return;
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          return;
+        }
+        // get public url
+        const { data: publicUrlData } = supabase.storage
+          .from('shafacode')
+          .getPublicUrl(fileName);
+        fileUrl = publicUrlData?.publicUrl;
       }
-      // get public url
-      const { data: publicUrlData } = supabase.storage
-        .from('shafacode')
-        .getPublicUrl(fileName);
-      fileUrl = publicUrlData?.publicUrl;
+
+      // 3. Prepare final payload
+      const payload = {
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+        fileUrl, // attach uploaded file link
+      };
+
+      // 4. Send to API to trigger email
+      const res = await fetch('/api/affiliate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+      console.log('Email sent result:', result);
+
+      // reset form
+      form.reset({
+        fullName: '',
+        email: '',
+        phone: '',
+        message: '',
+        file: null,
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // stop loading
     }
-
-    // 3. Prepare final payload
-    const payload = {
-      fullName: data.fullName,
-      email: data.email,
-      phone: data.phone,
-      message: data.message,
-      fileUrl, // attach uploaded file link
-    };
-
-    console.log(payload, 'form submit payload');
   };
 
   return (
@@ -97,6 +122,7 @@ const AffiliateLeadForm = () => {
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={loading}
                       placeholder="Enter your name"
                       {...field}
                       className="bg-slate-800 border-sky-700 focus-visible:border-sky-700 focus-visible:ring-sky-600 focus-visible:ring-2 text-slate-200"
@@ -114,6 +140,7 @@ const AffiliateLeadForm = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={loading}
                       placeholder="Enter your email"
                       {...field}
                       className="bg-slate-800 border-sky-700 focus-visible:border-sky-700 focus-visible:ring-sky-600 focus-visible:ring-2 text-slate-200"
@@ -132,6 +159,7 @@ const AffiliateLeadForm = () => {
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={loading}
                       placeholder="Enter your phone number"
                       {...field}
                       className="bg-slate-800 border-sky-700 focus-visible:border-sky-700 focus-visible:ring-sky-600 focus-visible:ring-2 text-slate-200"
@@ -150,6 +178,7 @@ const AffiliateLeadForm = () => {
                   <FormLabel>Message</FormLabel>
                   <FormControl>
                     <Textarea
+                      disabled={loading}
                       placeholder="Enter your message"
                       {...field}
                       className="bg-slate-800 border-sky-700 focus-visible:border-sky-700 focus-visible:ring-sky-600 focus-visible:ring-2 text-slate-200"
@@ -187,6 +216,7 @@ const AffiliateLeadForm = () => {
                       </label>
 
                       <input
+                        disabled={loading}
                         id="file-upload"
                         type="file"
                         accept="image/*, .pdf"
@@ -202,12 +232,12 @@ const AffiliateLeadForm = () => {
                 </FormItem>
               )}
             />
-
             <Button
               type="submit"
+              disabled={loading}
               className="bg-sky-600 hover:bg-sky-700 hover:cursor-pointer"
             >
-              Submit
+              {loading ? 'Submitting...' : 'Submit'}
             </Button>
           </form>
         </Form>
