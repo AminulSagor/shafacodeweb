@@ -16,6 +16,7 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Upload } from 'lucide-react';
 import { supabase } from '@/lib/supabase-client';
+import toast from 'react-hot-toast';
 
 const affiliateFormSchema = z.object({
   fullName: z
@@ -46,9 +47,8 @@ const AffiliateLeadForm = () => {
 
   const onSubmit = async (data: AffiliateFormType) => {
     try {
-      setLoading(true); // start loading
+      setLoading(true);
       let fileUrl = null;
-      // upload file to supabase storage
       if (data.file) {
         const file = data.file;
         const fileName = `${Date.now()}-${file.name}`;
@@ -61,33 +61,34 @@ const AffiliateLeadForm = () => {
           console.error('Upload error:', uploadError);
           return;
         }
-        // get public url
+
         const { data: publicUrlData } = supabase.storage
           .from('shafacode')
           .getPublicUrl(fileName);
         fileUrl = publicUrlData?.publicUrl;
       }
-
-      // 3. Prepare final payload
       const payload = {
         fullName: data.fullName,
         email: data.email,
         phone: data.phone,
         message: data.message,
-        fileUrl, // attach uploaded file link
+        fileUrl,
       };
 
-      // 4. Send to API to trigger email
-      const res = await fetch('/api/affiliate', {
+      // send mail
+      const res = await fetch('/api/affiliate-lead-mail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
+      if (!res.ok) {
+        toast.error('Failed to send email');
+        throw new Error('Failed to send email');
+      }
+      toast.success('Email sent successfully');
       const result = await res.json();
       console.log('Email sent result:', result);
-
-      // reset form
       form.reset({
         fullName: '',
         email: '',
@@ -98,7 +99,7 @@ const AffiliateLeadForm = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false); // stop loading
+      setLoading(false);
     }
   };
 
