@@ -2,8 +2,6 @@ export type ProjectType = {
   title: string;
   description: string;
   client: string;
-  status: 'Delivered' | 'Ongoing';
+  status: string;
   contact: string;
 };
-
-// test build

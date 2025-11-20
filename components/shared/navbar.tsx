@@ -22,8 +22,8 @@ import { Separator } from '../ui/separator';
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Become a Partner', href: '/affiliate' },
-  { label: 'Services', href: '/#services' },
-  { label: 'Portfolio', href: '/#portfolio' },
+  { label: 'Blog', href: '/blogs' },
+  { label: 'Portfolio', href: '/portfolio' },
   { label: 'Contact', href: '/#contact' },
 ];
 
