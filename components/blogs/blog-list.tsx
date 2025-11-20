@@ -63,11 +63,11 @@ const BlogList = () => {
             All Blogs
           </h2>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {regular.map((blog) => (
               <div
                 key={blog.id}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all"
+                className="bg-white rounded-md shadow-md overflow-hidden hover:shadow-lg transition-all"
               >
                 <div className="relative w-full h-48">
                   <Image

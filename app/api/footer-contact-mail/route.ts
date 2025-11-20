@@ -8,13 +8,11 @@ export async function POST(req: Request) {
 
     const { name, email, message } = body;
 
-    const contact = await db.collection('contact').add({
+    await db.collection('contact').add({
       name,
       email,
       message,
     });
-
-    console.log(contact, 'contact');
 
     const mailHtml = `
   <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">

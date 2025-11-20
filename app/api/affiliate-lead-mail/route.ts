@@ -1,3 +1,4 @@
+import { db } from '@/db/firebase-admin';
 import sendMail from '@/lib/send-mail';
 import { NextResponse } from 'next/server';
 
@@ -5,6 +6,14 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { fullName, email, phone, message, fileUrl } = body;
+
+    await db.collection('affiliate-leads').add({
+      fullName,
+      email,
+      message,
+      phone,
+      fileUrl,
+    });
 
     const mailHtml = `
       <h2>New Affiliate Lead</h2>

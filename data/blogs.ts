@@ -25,4 +25,21 @@ export const blogs = [
     featured: false,
     date: '2025-01-01',
   },
+  {
+    id: '5',
+    title: 'Design Systems That Scale',
+    short:
+      'Learn how ShafaCode builds scalable, consistent UI systems for clients.',
+    image: '/blog/blog-2.jpg',
+    featured: false,
+    date: '2025-01-05',
+  },
+  {
+    id: '6',
+    title: 'How We Built a 10x Faster API Layer',
+    short: 'Deep dive into optimizing Node.js and Firebase server actions.',
+    image: '/blog/blog-3.jpg',
+    featured: false,
+    date: '2025-01-01',
+  },
 ];
