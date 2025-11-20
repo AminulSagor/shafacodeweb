@@ -1,6 +1,5 @@
 'use client';
 import { Calendar, Home, Inbox } from 'lucide-react';
-
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +15,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-// Menu items.
 const items = [
   {
     title: 'Dashboard',
@@ -37,7 +35,6 @@ const items = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <Sidebar>
       <SidebarHeader className="bg-slate-200 border-b border-slate-300 py-4.5">

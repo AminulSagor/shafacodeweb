@@ -21,9 +21,10 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import createProject from '@/actions/projects/create-project';
+import { updateProject } from '@/actions/projects/edit-project-by-id';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+
 const projectSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
@@ -49,27 +50,41 @@ const projectSchema = z.object({
     ),
 });
 
-export type ProjectFormValues = z.infer<typeof projectSchema>;
+type ProjectFormValues = z.infer<typeof projectSchema>;
 
-const CreateProjectForm = () => {
+interface Props {
+  title: string;
+  description: string;
+  client: string;
+  status: 'in-progress' | 'delivered';
+  contactEmail: string;
+  id: string;
+}
+
+const EditProjectForm = ({
+  client,
+  contactEmail,
+  description,
+  status,
+  title,
+  id,
+}: Props) => {
   const router = useRouter();
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      client: '',
-      status: 'in-progress',
-      contact: '',
+      title,
+      description,
+      client,
+      status,
+      contact: contactEmail,
     },
   });
 
   const onSubmit = async (data: ProjectFormValues) => {
-    console.log('New Project:', data);
-    const projectData = await createProject(data);
-
+    const projectData = await updateProject(id, data);
     if (projectData.success) {
-      toast.success('Project created Successfully.');
+      toast.success('Project updated Successfully.');
       form.reset();
       router.push('/admin/projects');
     } else {
@@ -80,7 +95,7 @@ const CreateProjectForm = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Create New Project</CardTitle>
+        <CardTitle className="text-2xl">Make Changes</CardTitle>
       </CardHeader>
 
       <CardContent>
@@ -109,10 +124,7 @@ const CreateProjectForm = () => {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter project description"
-                      {...field}
-                    />
+                    <Textarea placeholder="Enter description" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,7 +185,7 @@ const CreateProjectForm = () => {
             />
 
             <Button type="submit" className="mt-4">
-              Create Project
+              Save Changes
             </Button>
           </form>
         </Form>
@@ -182,4 +194,4 @@ const CreateProjectForm = () => {
   );
 };
 
-export default CreateProjectForm;
+export default EditProjectForm;

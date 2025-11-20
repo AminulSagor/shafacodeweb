@@ -1,5 +1,6 @@
 import { getProjects } from '@/actions/projects/get-projects';
 import ProjectsList from '@/components/admin/projects/projects-list';
+import { TableDemo } from '@/components/admin/projects/table-demo';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -14,6 +15,7 @@ export default async function ProjectsPage() {
         </Button>
       </div>
       <ProjectsList projects={data as any} />
+      {/* <TableDemo /> */}
     </div>
   );
 }
